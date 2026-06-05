@@ -1,0 +1,147 @@
+import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import '../../../app/auth_gate.dart';
+
+class AdminDashboard extends StatelessWidget {
+  const AdminDashboard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0A1A2F),
+      appBar: AppBar(
+        backgroundColor: const Color(0xFF102A44),
+        title: const Text(
+          "Admin Dashboard",
+          style: TextStyle(color: Colors.white),
+        ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.white),
+            onPressed: () async {
+              await Supabase.instance.client.auth.signOut();
+              if (context.mounted) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(builder: (_) => const AuthGate()),
+                  (route) => false,
+                );
+              }
+            },
+          )
+        ],
+      ),
+
+      body: Row(
+        children: [
+          // -----------------------------------
+          // SIDEBAR
+          // -----------------------------------
+          Container(
+            width: 240,
+            color: const Color(0xFF102A44),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: const [
+                SizedBox(height: 30),
+                _SidebarItem(icon: Icons.dashboard, label: "Dashboard"),
+                _SidebarItem(icon: Icons.assignment, label: "Jobs"),
+                _SidebarItem(icon: Icons.people, label: "Workers"),
+                _SidebarItem(icon: Icons.business, label: "Subcontractors"),
+                _SidebarItem(icon: Icons.map, label: "Site Plans"),
+                _SidebarItem(icon: Icons.settings, label: "Settings"),
+              ],
+            ),
+          ),
+
+          // -----------------------------------
+          // MAIN CONTENT
+          // -----------------------------------
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    "Overview",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 28,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // QUICK ACTIONS
+                  Row(
+                    children: const [
+                      _QuickActionCard(
+                        icon: Icons.add_box,
+                        label: "Create Job",
+                      ),
+                      SizedBox(width: 16),
+                      _QuickActionCard(
+                        icon: Icons.person_add,
+                        label: "Add Worker",
+                      ),
+                      SizedBox(width: 16),
+                      _QuickActionCard(
+                        icon: Icons.map,
+                        label: "Upload Site Plan",
+                      ),
+                    ],
+                  ),
+
+                  const SizedBox(height: 30),
+
+                  const Text(
+                    "Active Jobs",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+
+                  const SizedBox(height: 16),
+
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.06),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: ListView(
+                        children: const [
+                          _JobTile(
+                            title: "Auckland CBD Tower Scaffold",
+                            status: "In Progress",
+                            workers: 12,
+                          ),
+                          _JobTile(
+                            title: "Warehouse Extension – Manukau",
+                            status: "Pending",
+                            workers: 5,
+                          ),
+                          _JobTile(
+                            title: "Bridge Maintenance – North Shore",
+                            status: "Completed",
+                            workers: 8,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// --------------------------------
