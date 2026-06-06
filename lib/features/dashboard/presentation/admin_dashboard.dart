@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../app/auth_gate.dart';
 
 class AdminDashboard extends StatelessWidget {
-  const AdminDashboard({super.key});
+  AdminDashboard({super.key}); // FIXED: removed const
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class AdminDashboard extends StatelessWidget {
               await Supabase.instance.client.auth.signOut();
               if (context.mounted) {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const AuthGate()),
+                  MaterialPageRoute(builder: (_) => AuthGate()), // FIXED
                   (route) => false,
                 );
               }
@@ -33,9 +33,6 @@ class AdminDashboard extends StatelessWidget {
 
       body: Row(
         children: [
-          // -----------------------------------
-          // SIDEBAR
-          // -----------------------------------
           Container(
             width: 240,
             color: const Color(0xFF102A44),
@@ -53,9 +50,6 @@ class AdminDashboard extends StatelessWidget {
             ),
           ),
 
-          // -----------------------------------
-          // MAIN CONTENT
-          // -----------------------------------
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(24),
@@ -73,7 +67,6 @@ class AdminDashboard extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // QUICK ACTIONS
                   Row(
                     children: const [
                       _QuickActionCard(
@@ -143,5 +136,3 @@ class AdminDashboard extends StatelessWidget {
     );
   }
 }
-
-// --------------------------------

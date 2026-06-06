@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import '../../../admin/presentation/photo_viewer_screen.dart';
+import '../../../features/admin/presentation/photo_viewer_screen.dart';
 
 
 class RequestDetailsScreen extends StatefulWidget {

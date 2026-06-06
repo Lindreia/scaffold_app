@@ -6,7 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ScaffoldRequestForm extends StatefulWidget {
-  const ScaffoldRequestForm({super.key});
+  ScaffoldRequestForm({super.key}); // FIXED: removed const
 
   @override
   State<ScaffoldRequestForm> createState() => _ScaffoldRequestFormState();
@@ -36,7 +36,7 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
   bool loading = false;
 
   // ---------------------------
-  // PHOTO PICKER
+  // PICK PHOTOS
   // ---------------------------
   Future<void> _pickPhotos() async {
     final picked = await _picker.pickMultiImage();
@@ -181,7 +181,10 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
       backgroundColor: const Color(0xFF0A1A2F),
       appBar: AppBar(
         backgroundColor: const Color(0xFF102A44),
-        title: const Text("Submit Scaffold Request", style: TextStyle(color: Colors.white)),
+        title: const Text(
+          "Submit Scaffold Request",
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Stack(
         children: [
@@ -223,7 +226,9 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
 
             ElevatedButton(
               onPressed: _pickPhotos,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.blueGrey.shade700),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blueGrey.shade700,
+              ),
               child: const Text("Add Photos"),
             ),
 
@@ -256,7 +261,10 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
                   backgroundColor: const Color(0xFF1B4B72),
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
-                child: const Text("Submit Request", style: TextStyle(fontSize: 18)),
+                child: const Text(
+                  "Submit Request",
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
             ),
           ],
@@ -265,7 +273,8 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
     );
   }
 
-  Widget _field(String label, TextEditingController controller, {int maxLines = 1}) {
+  Widget _field(String label, TextEditingController controller,
+      {int maxLines = 1}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
       child: TextFormField(
@@ -278,7 +287,9 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
           labelStyle: const TextStyle(color: Colors.white70),
           filled: true,
           fillColor: Colors.white.withOpacity(0.08),
-          border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       ),
     );

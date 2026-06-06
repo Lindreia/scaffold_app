@@ -3,7 +3,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../app/auth_gate.dart';
 
 class ViewerDashboard extends StatelessWidget {
-  const ViewerDashboard({super.key});
+  ViewerDashboard({super.key}); // FIXED: removed const
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class ViewerDashboard extends StatelessWidget {
               await Supabase.instance.client.auth.signOut();
               if (context.mounted) {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const AuthGate()),
+                  MaterialPageRoute(builder: (_) => AuthGate()), // FIXED
                   (route) => false,
                 );
               }
@@ -33,9 +33,6 @@ class ViewerDashboard extends StatelessWidget {
 
       body: Row(
         children: [
-          // -----------------------------------
-          // SIDEBAR (Read‑Only)
-          // -----------------------------------
           Container(
             width: 240,
             color: const Color(0xFF102A44),
@@ -51,9 +48,6 @@ class ViewerDashboard extends StatelessWidget {
             ),
           ),
 
-          // -----------------------------------
-          // MAIN CONTENT
-          // -----------------------------------
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(24),

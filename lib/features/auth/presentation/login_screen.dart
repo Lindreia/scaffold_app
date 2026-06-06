@@ -5,13 +5,14 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../core/widgets/blueprint_background.dart';
 import 'forgot_password_screen.dart';
 import 'signup_screen.dart';
-import 'auth_gate.dart';
+import '../../../app/auth_gate.dart';
+
 
 class BlueprintLoginScreen extends StatefulWidget {
-  const BlueprintLoginScreen({super.key});
+  BlueprintLoginScreen({super.key}); // FIXED: removed const
 
   @override
-  State<BlueprintLoginScreen> createState() => _BlueprintLoginScreenState();
+  State<BlueprintLoginScreen> createState() => _BlueprintLoginScreenState(); // FIXED: corrected name
 }
 
 class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
@@ -43,11 +44,10 @@ class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
         password: password,
       );
 
-      // After login → go to AuthGate
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => const AuthGate()),
+          MaterialPageRoute(builder: (_) => AuthGate()), // FIXED: removed const
         );
       }
     } on AuthException catch (e) {
@@ -83,7 +83,6 @@ class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
                         child: Image.asset(
                           'assets/images/logo.png',
                           fit: BoxFit.contain,
-                          // Fallback if asset is missing during development
                           errorBuilder: (context, error, stackTrace) => const Icon(
                             Icons.image,
                             size: 96,

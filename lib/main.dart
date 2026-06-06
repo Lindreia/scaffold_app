@@ -9,8 +9,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: const String.fromEnvironment('SUPABASE_URL'),
-    anonKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
+    url: String.fromEnvironment('SUPABASE_URL'),
+    anonKey: String.fromEnvironment('SUPABASE_ANON_KEY'),
   );
 
   runApp(const MyApp());
@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     final session = client.auth.currentSession;
 
     if (session == null) {
-      return const LoginScreen();
+      return LoginScreen(); // FIXED
     }
 
     final profile = await client
@@ -36,10 +36,10 @@ class MyApp extends StatelessWidget {
     final role = profile?['role'] ?? 'public';
 
     if (role == 'admin' || role == 'supervisor' || role == 'qs') {
-      return const ScaffoldRequestsScreen();
+      return ScaffoldRequestsScreen(); // FIXED
     }
 
-    return const ScaffoldRequestForm();
+    return ScaffoldRequestForm(); // FIXED
   }
 
   @override
