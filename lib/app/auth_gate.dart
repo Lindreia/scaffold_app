@@ -40,13 +40,13 @@ class _AuthGateState extends State<AuthGate> {
   Widget _routeForRole(String? role) {
     switch (role) {
       case 'admin':
-        return const BlueprintDashboardScreen();
+        return DashboardScreen(); // Admin dashboard
       case 'supervisor':
-        return const ScaffoldTrackerScreen();
+        return ScaffoldTrackerScreen(); // Supervisor screen
       case 'qs':
-        return const FinancialsScreen();
+        return FinancialsScreen(); // QS screen
       default:
-        return const BlueprintLoginScreen();
+        return LoginScreen(); // Fallback to login
     }
   }
 
@@ -59,7 +59,7 @@ class _AuthGateState extends State<AuthGate> {
 
         // Not logged in → Login screen
         if (session == null) {
-          return const BlueprintLoginScreen();
+          return LoginScreen();
         }
 
         // Logged in → fetch role
