@@ -3,7 +3,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 // Screens
 import '../features/auth/presentation/login_screen.dart';
-import '../features/dashboard/presentation/dashboard_screen.dart';
+import '../features/dashboard/presentation/admin_dashboard.dart';
+import '../features/dashboard/presentation/worker_dashboard.dart';
 import '../features/scaffold_tracker/presentation/scaffold_tracker_screen.dart';
 import '../features/financials/presentation/financial_screen.dart';
 
@@ -40,13 +41,19 @@ class _AuthGateState extends State<AuthGate> {
   Widget _routeForRole(String? role) {
     switch (role) {
       case 'admin':
-        return DashboardScreen(); // Admin dashboard
+        return AdminDashboard();
+
       case 'supervisor':
-        return ScaffoldTrackerScreen(); // Supervisor screen
+        return ScaffoldTrackerScreen();
+
       case 'qs':
-        return FinancialsScreen(); // QS screen
+        return FinancialScreen();
+
+      case 'worker':
+        return WorkerDashboard();
+
       default:
-        return LoginScreen(); // Fallback to login
+        return BlueprintLoginScreen();
     }
   }
 
@@ -59,7 +66,7 @@ class _AuthGateState extends State<AuthGate> {
 
         // Not logged in → Login screen
         if (session == null) {
-          return LoginScreen();
+          return BlueprintLoginScreen();
         }
 
         // Logged in → fetch role
