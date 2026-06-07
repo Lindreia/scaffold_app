@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-import 'features/auth/presentation/login_screen.dart';
 import 'app/auth_gate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Load .env manually (required for Flutter Web)
+  await dotenv.load(fileName: ".env");
+
   await Supabase.initialize(
-    url: String.fromEnvironment('SUPABASE_URL'),
-    anonKey: String.fromEnvironment('SUPABASE_ANON_KEY'),
+    url: dotenv.env['SUPABASE_URL']!,
+    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
   );
 
   runApp(const MyApp());
