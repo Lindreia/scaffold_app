@@ -3,11 +3,10 @@ import 'package:intl/intl.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../../features/admin/presentation/photo_viewer_screen.dart';
 
-
 class RequestDetailsScreen extends StatefulWidget {
   final String requestId;
 
-  const RequestDetailsScreen({super.key, required this.requestId});
+  RequestDetailsScreen({super.key, required this.requestId});
 
   @override
   State<RequestDetailsScreen> createState() => _RequestDetailsScreenState();
@@ -78,8 +77,10 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     if (loading) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator(color: Colors.white)),
+      return Scaffold(
+        body: Center(
+          child: CircularProgressIndicator(color: Colors.blueGrey),
+        ),
       );
     }
 
@@ -95,150 +96,217 @@ class _RequestDetailsScreenState extends State<RequestDetailsScreen> {
         removalDate.isAfter(today);
 
     return Scaffold(
-      backgroundColor: const Color(0xFF0A1A2F),
-      appBar: AppBar(
-        backgroundColor: const Color(0xFF102A44),
-        title: const Text("Request Details", style: TextStyle(color: Colors.white)),
-      ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              req['subcontractor_name'] ?? "Unknown Subcontractor",
-              style: const TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
-                color: Colors.white,
+      body: Column(
+        children: [
+          // HEADER IMAGE RIBBON
+          Container(
+            height: 200,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/images/blueprint_scaffold.png"),
+                fit: BoxFit.cover,
               ),
             ),
-            const SizedBox(height: 10),
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: _statusColor(req['status']),
-                borderRadius: BorderRadius.circular(8),
-              ),
+            child: Container(
+              alignment: Alignment.bottomLeft,
+              padding: EdgeInsets.all(20),
+              color: Colors.black.withOpacity(0.4),
               child: Text(
-                req['status'].toUpperCase(),
-                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-            if (overdue)
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  "⚠ OVERDUE — Removal date has passed",
-                  style: TextStyle(color: Colors.redAccent, fontSize: 16),
+                "Request Details",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 28,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            if (dueSoon && !overdue)
-              const Padding(
-                padding: EdgeInsets.only(top: 10),
-                child: Text(
-                  "⚠ Due in less than 2 days",
-                  style: TextStyle(color: Colors.orangeAccent, fontSize: 16),
-                ),
-              ),
-            const SizedBox(height: 20),
-            _info("Location", req['location']),
-            _info("Scaffold Type", req['scaffold_type']),
-            _info("Height", req['height']),
-            _info("Weight Capacity", req['weight_capacity']),
-            _info("Contact Person", req['contact_person']),
-            _info("Phone", req['phone']),
-            _info("Email", req['email']),
-            _info("Description", req['description']),
-            const SizedBox(height: 20),
-            _info("Date Required", _format(req['date_required'])),
-            _info("Removal Date", _format(req['removal_date'])),
-            _info("Completed Date", _format(req['date_completed'])),
-            const SizedBox(height: 30),
-            const Text(
-              "Photos",
-              style: TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
             ),
-            const SizedBox(height: 10),
-            photos.isEmpty
-                ? const Text("No photos uploaded", style: TextStyle(color: Colors.white70))
-                : SizedBox(
-                    height: 120,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: photos.length,
-                      itemBuilder: (context, index) {
-                        final url = photos[index]['file_url'];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (_) => PhotoViewerScreen(
-                                  photos: photos.map<String>((p) => p['file_url']).toList(),
-                                  initialIndex: index,
-                                ),
-                              ),
-                            );
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                url,
-                                width: 120,
-                                height: 120,
-                                fit: BoxFit.cover,
-                              ),
+          ),
+
+          // WHITE CONTENT AREA
+          Expanded(
+            child: Container(
+              color: Colors.white,
+              padding: EdgeInsets.all(20),
+              child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      req['subcontractor_name'] ?? "Unknown Subcontractor",
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black87,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Container(
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                      decoration: BoxDecoration(
+                        color: _statusColor(req['status']),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Text(
+                        req['status'].toUpperCase(),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                    if (overdue)
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          "⚠ OVERDUE — Removal date has passed",
+                          style: TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    if (dueSoon && !overdue)
+                      Padding(
+                        padding: EdgeInsets.only(top: 10),
+                        child: Text(
+                          "⚠ Due in less than 2 days",
+                          style: TextStyle(
+                            color: Colors.orangeAccent,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                    SizedBox(height: 20),
+
+                    _info("Location", req['location']),
+                    _info("Scaffold Type", req['scaffold_type']),
+                    _info("Height", req['height']),
+                    _info("Weight Capacity", req['weight_capacity']),
+                    _info("Contact Person", req['contact_person']),
+                    _info("Phone", req['phone']),
+                    _info("Email", req['email']),
+                    _info("Description", req['description']),
+
+                    SizedBox(height: 20),
+
+                    _info("Date Required", _format(req['date_required'])),
+                    _info("Removal Date", _format(req['removal_date'])),
+                    _info("Completed Date", _format(req['date_completed'])),
+
+                    SizedBox(height: 30),
+
+                    Text(
+                      "Photos",
+                      style: TextStyle(
+                        color: Colors.black87,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+
+                    photos.isEmpty
+                        ? Text(
+                            "No photos uploaded",
+                            style: TextStyle(color: Colors.black54),
+                          )
+                        : SizedBox(
+                            height: 120,
+                            child: ListView.builder(
+                              scrollDirection: Axis.horizontal,
+                              itemCount: photos.length,
+                              itemBuilder: (context, index) {
+                                final url = photos[index]['file_url'];
+                                return GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (_) => PhotoViewerScreen(
+                                          photos: photos
+                                              .map<String>(
+                                                  (p) => p['file_url'])
+                                              .toList(),
+                                          initialIndex: index,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(right: 10),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.circular(10),
+                                      child: Image.network(
+                                        url,
+                                        width: 120,
+                                        height: 120,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
                           ),
-                        );
-                      },
-                    ),
-                  ),
-            const SizedBox(height: 30),
-            if (req['status'] == 'pending')
-              Row(
-                children: [
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => _updateStatus("approved"),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.green.shade700),
-                      child: const Text("APPROVE"),
-                    ),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: ElevatedButton(
-                      onPressed: () => _updateStatus("declined"),
-                      style: ElevatedButton.styleFrom(backgroundColor: Colors.red.shade700),
-                      child: const Text("DECLINE"),
-                    ),
-                  ),
-                ],
-              ),
-            if (req['status'] == 'approved')
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: () => _updateStatus("completed"),
-                  style: ElevatedButton.styleFrom(backgroundColor: Colors.blue.shade700),
-                  child: const Text("MARK AS COMPLETED"),
+
+                    SizedBox(height: 30),
+
+                    if (req['status'] == 'pending')
+                      Row(
+                        children: [
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () => _updateStatus("approved"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.green.shade700,
+                              ),
+                              child: Text("APPROVE"),
+                            ),
+                          ),
+                          SizedBox(width: 12),
+                          Expanded(
+                            child: ElevatedButton(
+                              onPressed: () => _updateStatus("declined"),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.red.shade700,
+                              ),
+                              child: Text("DECLINE"),
+                            ),
+                          ),
+                        ],
+                      ),
+
+                    if (req['status'] == 'approved')
+                      SizedBox(
+                        width: double.infinity,
+                        child: ElevatedButton(
+                          onPressed: () => _updateStatus("completed"),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue.shade700,
+                          ),
+                          child: Text("MARK AS COMPLETED"),
+                        ),
+                      ),
+                  ],
                 ),
               ),
-          ],
-        ),
+            ),
+          ),
+        ],
       ),
     );
   }
 
   Widget _info(String label, String? value) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: 12),
       child: Text(
         "$label: ${value ?? 'N/A'}",
-        style: const TextStyle(color: Colors.white, fontSize: 16),
+        style: TextStyle(
+          color: Colors.black87,
+          fontSize: 16,
+        ),
       ),
     );
   }
