@@ -34,13 +34,13 @@ class _AuthGateState extends State<AuthGate> {
   Widget _routeForRole(String role) {
     switch (role) {
       case 'admin':
-        return const AdminDashboard();
+        return AdminDashboard();
       case 'supervisor':
-        return const ScaffoldTrackerScreen();
+        return ScaffoldTrackerScreen();
       case 'qs':
-        return const FinancialsScreen();
+        return FinancialsScreen();
       case 'worker':
-        return const WorkerDashboard();
+        return WorkerDashboard();
       default:
         return BlueprintLoginScreen();
     }
@@ -71,7 +71,7 @@ class _AuthGateState extends State<AuthGate> {
               );
             }
 
-            // No profile row → force login screen
+            // No profile row or null role → send back to login
             if (!roleSnapshot.hasData || roleSnapshot.data == null) {
               return BlueprintLoginScreen();
             }
