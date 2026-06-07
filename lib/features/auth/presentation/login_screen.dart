@@ -7,12 +7,11 @@ import 'forgot_password_screen.dart';
 import 'signup_screen.dart';
 import '../../../app/auth_gate.dart';
 
-
 class BlueprintLoginScreen extends StatefulWidget {
-  BlueprintLoginScreen({super.key}); // FIXED: removed const
+  BlueprintLoginScreen({super.key});
 
   @override
-  State<BlueprintLoginScreen> createState() => _BlueprintLoginScreenState(); // FIXED: corrected name
+  State<BlueprintLoginScreen> createState() => _BlueprintLoginScreenState();
 }
 
 class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
@@ -47,7 +46,7 @@ class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
       if (mounted) {
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (_) => AuthGate()), // FIXED: removed const
+          MaterialPageRoute(builder: (_) => AuthGate()),
         );
       }
     } on AuthException catch (e) {
@@ -78,16 +77,12 @@ class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
                     children: [
                       const SizedBox(height: 24),
 
+                      // ⭐ FIXED: Using your actual existing image
                       SizedBox(
                         height: 140,
                         child: Image.asset(
-                          'assets/images/logo.png',
+                          'assets/images/blueprint_scaffold.png',
                           fit: BoxFit.contain,
-                          errorBuilder: (context, error, stackTrace) => const Icon(
-                            Icons.image,
-                            size: 96,
-                            color: Colors.white30,
-                          ),
                         ),
                       ),
 
@@ -105,9 +100,9 @@ class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
 
                       const SizedBox(height: 8),
 
-                      Opacity(
+                      const Opacity(
                         opacity: 0.85,
-                        child: const Text(
+                        child: Text(
                           'Efficient Job Tracking & Scaffold Management',
                           textAlign: TextAlign.center,
                           style: TextStyle(
