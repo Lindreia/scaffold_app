@@ -6,7 +6,7 @@ import 'package:path/path.dart' as p;
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ScaffoldRequestForm extends StatefulWidget {
-  ScaffoldRequestForm({super.key}); // FIXED: removed const
+  ScaffoldRequestForm({super.key});
 
   @override
   State<ScaffoldRequestForm> createState() => _ScaffoldRequestFormState();
@@ -60,10 +60,9 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
       await storage.uploadBinary(path, bytes);
       final url = storage.getPublicUrl(path);
 
-      await _client.from('scaffold_attachments').insert({
-        'request_id': requestId,
+      await _client.from('subcontractor_application_photos').insert({
+        'application_id': requestId,
         'file_url': url,
-        'file_type': 'photo',
       });
     }
   }
@@ -86,7 +85,7 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
 
     try {
       final result = await _client
-          .from('scaffold_requests')
+          .from('subcontractor_applications')
           .insert({
             'subcontractor_name': _subcontractor.text,
             'contact_person': _contact.text,
@@ -96,7 +95,7 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
             'scaffold_type': _type.text,
             'height': _height.text,
             'weight_capacity': _capacity.text,
-            'description': _description.text,
+            'reason': _description.text,
             'date_required': _dateRequired!.toIso8601String(),
             'removal_date': _removalDate!.toIso8601String(),
           })
@@ -214,7 +213,7 @@ class _ScaffoldRequestFormState extends State<ScaffoldRequestForm> {
             _field("Scaffold Type", _type),
             _field("Height", _height),
             _field("Weight Capacity", _capacity),
-            _field("Description", _description, maxLines: 4),
+            _field("Description / Reason", _description, maxLines: 4),
 
             const SizedBox(height: 20),
 
