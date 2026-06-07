@@ -1,12 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-// Screens
 import '../features/auth/presentation/login_screen.dart';
 import '../features/dashboard/presentation/admin_dashboard.dart';
-import '../features/dashboard/presentation/worker_dashboard.dart';
-import '../features/scaffold_tracker/presentation/scaffold_tracker_screen.dart';
-import '../features/financials/presentation/financial_screen.dart';
 
 class AuthGate extends StatefulWidget {
   const AuthGate({super.key});
@@ -18,34 +14,6 @@ class AuthGate extends StatefulWidget {
 class _AuthGateState extends State<AuthGate> {
   final _client = Supabase.instance.client;
 
-  Future<String?> _getUserRole() async {
-    final user = _client.auth.currentUser;
-    if (user == null) return null;
-
-    final response = await _client
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .maybeSingle();
-
-    return response?['role'];
-  }
-
-  Widget _routeForRole(String role) {
-    switch (role) {
-      case 'admin':
-        return AdminDashboard();
-      case 'supervisor':
-        return ScaffoldTrackerScreen();
-      case 'qs':
-        return FinancialsScreen();
-      case 'worker':
-        return WorkerDashboard();
-      default:
-        return BlueprintLoginScreen();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AuthState>(
@@ -53,33 +21,13 @@ class _AuthGateState extends State<AuthGate> {
       builder: (context, snapshot) {
         final session = snapshot.data?.session;
 
-        // Not logged in → Login screen
+        // Not logged in → show login
         if (session == null) {
           return BlueprintLoginScreen();
         }
 
-        // Logged in → fetch role
-        return FutureBuilder<String?>(
-          future: _getUserRole(),
-          builder: (context, roleSnapshot) {
-            // Still loading role
-            if (roleSnapshot.connectionState == ConnectionState.waiting) {
-              return const Scaffold(
-                body: Center(
-                  child: CircularProgressIndicator(color: Colors.white),
-                ),
-              );
-            }
-
-            // No profile row or null role → send back to login
-            if (!roleSnapshot.hasData || roleSnapshot.data == null) {
-              return BlueprintLoginScreen();
-            }
-
-            final role = roleSnapshot.data!;
-            return _routeForRole(role);
-          },
-        );
+        // Logged in → go straight to admin dashboard
+        return AdminDashboard();
       },
     );
   }
