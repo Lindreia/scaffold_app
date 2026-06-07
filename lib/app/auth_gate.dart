@@ -17,13 +17,6 @@ class AuthGate extends StatefulWidget {
 
 class _AuthGateState extends State<AuthGate> {
   final _client = Supabase.instance.client;
-  late final Stream<AuthState> _authStream;
-
-  @override
-  void initState() {
-    super.initState();
-    _authStream = _client.auth.onAuthStateChange;
-  }
 
   Future<String?> _getUserRole() async {
     final user = _client.auth.currentUser;
@@ -38,29 +31,25 @@ class _AuthGateState extends State<AuthGate> {
     return response?['role'];
   }
 
-  Widget _routeForRole(String? role) {
+  Widget _routeForRole(String role) {
     switch (role) {
       case 'admin':
-        return AdminDashboard();
-
+        return const AdminDashboard();
       case 'supervisor':
-        return ScaffoldTrackerScreen();
-
+        return const ScaffoldTrackerScreen();
       case 'qs':
-        return FinancialsScreen(); // FIXED — matches your class name
-
+        return const FinancialsScreen();
       case 'worker':
-        return WorkerDashboard();
-
+        return const WorkerDashboard();
       default:
-        return BlueprintLoginScreen(); // FIXED — matches your login screen
+        return BlueprintLoginScreen();
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<AuthState>(
-      stream: _authStream,
+      stream: _client.auth.onAuthStateChange,
       builder: (context, snapshot) {
         final session = snapshot.data?.session;
 
@@ -73,7 +62,8 @@ class _AuthGateState extends State<AuthGate> {
         return FutureBuilder<String?>(
           future: _getUserRole(),
           builder: (context, roleSnapshot) {
-            if (!roleSnapshot.hasData) {
+            // Still loading role
+            if (roleSnapshot.connectionState == ConnectionState.waiting) {
               return const Scaffold(
                 body: Center(
                   child: CircularProgressIndicator(color: Colors.white),
@@ -81,7 +71,12 @@ class _AuthGateState extends State<AuthGate> {
               );
             }
 
-            final role = roleSnapshot.data;
+            // No profile row → force login screen
+            if (!roleSnapshot.hasData || roleSnapshot.data == null) {
+              return BlueprintLoginScreen();
+            }
+
+            final role = roleSnapshot.data!;
             return _routeForRole(role);
           },
         );
