@@ -47,13 +47,13 @@ class _AuthGateState extends State<AuthGate> {
         return ScaffoldTrackerScreen();
 
       case 'qs':
-        return FinancialScreen();
+        return FinancialsScreen(); // FIXED — matches your class name
 
       case 'worker':
         return WorkerDashboard();
 
       default:
-        return BlueprintLoginScreen();
+        return BlueprintLoginScreen(); // FIXED — matches your login screen
     }
   }
 
