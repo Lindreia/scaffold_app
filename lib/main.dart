@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import 'app/auth_gate.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Load environment variables
-  await dotenv.load(fileName: ".env");
-
-  // Initialize Supabase
+  // Initialize Supabase directly (no .env in release builds)
   await Supabase.initialize(
-    url: dotenv.env['SUPABASE_URL']!,
-    anonKey: dotenv.env['SUPABASE_ANON_KEY']!,
+    url: "https://jndtshuyvyjvkhfufyr.supabase.co",  // <-- corrected URL
+    anonKey: "sb_publishable_kgw_D5hl1nEmhac-EDawgg_080pF...", // <-- your publishable key
   );
 
   runApp(MyApp());
@@ -29,9 +25,9 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Color(0xFF0A1A2F),
+        scaffoldBackgroundColor: const Color(0xFF0A1A2F),
         fontFamily: 'Roboto',
-        appBarTheme: AppBarTheme(
+        appBarTheme: const AppBarTheme(
           backgroundColor: Color(0xFF102A44),
           elevation: 0,
         ),
