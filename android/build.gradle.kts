@@ -1,7 +1,25 @@
+import com.android.build.gradle.BaseExtension
+import org.gradle.api.tasks.Delete
+import org.gradle.api.file.Directory
+
 allprojects {
     repositories {
         google()
         mavenCentral()
+    }
+}
+
+// ⭐ Force ALL Android modules (app + plugins) to use SDK 36
+subprojects {
+    afterEvaluate {
+        if (plugins.hasPlugin("com.android.application") || plugins.hasPlugin("com.android.library")) {
+            extensions.configure(BaseExtension::class.java) {
+                compileSdkVersion(36)
+                defaultConfig {
+                    targetSdkVersion(36)
+                }
+            }
+        }
     }
 }
 
@@ -15,6 +33,7 @@ subprojects {
     val newSubprojectBuildDir: Directory = newBuildDir.dir(project.name)
     project.layout.buildDirectory.value(newSubprojectBuildDir)
 }
+
 subprojects {
     project.evaluationDependsOn(":app")
 }
