@@ -6,8 +6,8 @@ plugins {
 android {
     namespace = "com.example.flutter_app"
 
-    // ⭐ Force modern Android API level
-    compileSdk = 34
+    // ⭐ Must match highest plugin requirement
+    compileSdk = 36
     ndkVersion = flutter.ndkVersion
 
     compileOptions {
@@ -20,8 +20,8 @@ android {
 
         minSdk = flutter.minSdkVersion
 
-        // ⭐ Force modern targetSdk
-        targetSdk = 34
+        // ⭐ Must match compileSdk
+        targetSdk = 36
 
         versionCode = flutter.versionCode
         versionName = flutter.versionName
