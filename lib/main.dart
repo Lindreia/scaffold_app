@@ -9,7 +9,7 @@ void main() async {
   // Initialize Supabase directly (no .env in release builds)
   await Supabase.initialize(
     url: "https://jndtshuyvyjvkhfufyr.supabase.co",  // <-- corrected URL
-    anonKey: "sb_publishable_kgw_D5hl1nEmhac-EDawgg_080pF...", // <-- your publishable key
+    anonKey: "sb_publishable_kgw_D5hl1nEmhac-EDawgg_080pF94H", // <-- your publishable key
   );
 
   runApp(MyApp());
