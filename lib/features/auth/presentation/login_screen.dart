@@ -7,7 +7,7 @@ import 'forgot_password_screen.dart';
 import 'signup_screen.dart';
 
 class BlueprintLoginScreen extends StatefulWidget {
-  BlueprintLoginScreen({super.key});
+  const BlueprintLoginScreen({super.key});
 
   @override
   State<BlueprintLoginScreen> createState() => _BlueprintLoginScreenState();
@@ -37,15 +37,12 @@ class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
     });
 
     try {
-      // Attempt login
       await _client.auth.signInWithPassword(
         email: email,
         password: password,
       );
 
-      // ⭐ DO NOT NAVIGATE ANYWHERE
-      // AuthGate will automatically detect the new session
-      // and redirect the user to AdminDashboard.
+      // AuthGate will automatically redirect after login
       setState(() => _loading = false);
 
     } on AuthException catch (e) {
@@ -54,9 +51,10 @@ class _BlueprintLoginScreenState extends State<BlueprintLoginScreen> {
         _message = e.message;
       });
     } catch (e) {
+      // ⭐ Show the REAL error so we can debug properly
       setState(() {
         _loading = false;
-        _message = 'Unexpected error occurred';
+        _message = e.toString();
       });
     }
   }

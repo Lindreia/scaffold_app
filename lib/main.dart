@@ -6,10 +6,10 @@ import 'app/auth_gate.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize Supabase directly (no .env in release builds)
+  // Initialize Supabase
   await Supabase.initialize(
-    url: "https://jndtshuyvyjvkhfufyr.supabase.co",  // <-- corrected URL
-    anonKey: "sb_publishable_kgw_D5hl1nEmhac-EDawgg_080pF94H", // <-- your publishable key
+    url: "https://jndtshuyvyjvkhfufyr.supabase.co",
+    anonKey: "sb_publishable_kgw_D5hl1nEmhac-EDawgg_080pF94H",
   );
 
   runApp(MyApp());
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           elevation: 0,
         ),
       ),
-      home: AuthGate(),
+      home: const AuthGate(),
     );
   }
 }
