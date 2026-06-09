@@ -37,14 +37,24 @@ dependencies:
   # ⭐ For date formatting (date_required, removal_date)
   intl: ^0.19.0
 
-dev_dependencies:
-  flutter_test:
+dependencies:
+  flutter:
     sdk: flutter
-  flutter_lints: ^6.0.0
 
-flutter:
-  uses-material-design: true
+  flutter_dotenv: ^5.1.0
+  supabase_flutter: ^1.0.0
 
-  assets:
-    - assets/images/
-    - .env
+  cupertino_icons: ^1.0.8
+
+  image_picker: ^1.0.7
+
+  file_picker: ^8.0.0
+
+  excel: ^2.0.0
+
+  path_provider: ^2.1.2
+  file_saver: ^0.2.12
+
+  share_plus: ^7.2.0
+
+  intl: ^0.19.0
