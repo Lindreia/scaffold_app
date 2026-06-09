@@ -21,8 +21,7 @@ dependencies:
   image_picker: ^1.0.7
 
   # ⭐ Required for file uploads (PDF, drawings, etc.)
-  file_picker: file_picker: ^8.0.0
-
+  file_picker: ^8.0.0
 
   # ⭐ Required for Excel export
   excel: ^2.0.0
@@ -34,27 +33,17 @@ dependencies:
   # ⭐ Required for sharing Excel files
   share_plus: ^7.2.0
 
-  # ⭐ For date formatting (date_required, removal_date)
+  # ⭐ For date formatting
   intl: ^0.19.0
 
-dependencies:
-  flutter:
+dev_dependencies:
+  flutter_test:
     sdk: flutter
+  flutter_lints: ^6.0.0
 
-  flutter_dotenv: ^5.1.0
-  supabase_flutter: ^1.0.0
+flutter:
+  uses-material-design: true
 
-  cupertino_icons: ^1.0.8
-
-  image_picker: ^1.0.7
-
-  file_picker: ^8.0.0
-
-  excel: ^2.0.0
-
-  path_provider: ^2.1.2
-  file_saver: ^0.2.12
-
-  share_plus: ^7.2.0
-
-  intl: ^0.19.0
+  assets:
+    - assets/images/
+    - .env
